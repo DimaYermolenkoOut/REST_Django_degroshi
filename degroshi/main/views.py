@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import Group, User
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics
 
 from .models import Expense, Category
 from .serializers import GroupSerializer, UserSerializer, ExpenseSerializer, CategorySerializer
@@ -23,6 +23,23 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
     permissions_classes = [permissions.IsAuthenticated]
 
+class CategotyAPIList(generics.ListCreateAPIView):
+    '''
+    Кінцева точка API, яка дозволяє переглядати та редагувати категорії.
+    '''
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    '''
+    Кінцева точка API, яка дозволяє переглядати та редагувати категорії.
+    '''
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permissions_classes = [permissions.IsAuthenticated]
+
 
 class ExpenseViewSet(viewsets.ModelViewSet):
     '''
@@ -33,12 +50,6 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     permissions_classes = [permissions.IsAuthenticated]
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    '''
-    Кінцева точка API, яка дозволяє переглядати та редагувати категорії.
-    '''
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permissions_classes = [permissions.IsAuthenticated]
+
 
 
