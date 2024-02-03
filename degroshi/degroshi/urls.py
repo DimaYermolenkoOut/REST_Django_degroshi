@@ -29,7 +29,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'expenses', views.ExpenseViewSet)
 router.register(r'categories', views.CategoryViewSet)
-# router.register(r'total-expenses', views.TotalExpensesView)
+# router.register(r'total-expenses', views.TotalExpensesView, basename='total_expenses')
 
 # print(router.urls)
 
@@ -39,7 +39,7 @@ urlpatterns = [
     # path('api/v1/', CategotyAPIList.as_view()),
     # path('api/v1/<int:pk>/', CategotyAPIList.as_view()),
     path('', include(router.urls)),
-    path('api/v1/total-expenses/', TotalExpensesView.as_view(), name='total_expenses'),
+    path('total-expenses/', TotalExpensesView.as_view(), name='total_expenses'),
 
 ]
 urlpatterns +=router.urls
