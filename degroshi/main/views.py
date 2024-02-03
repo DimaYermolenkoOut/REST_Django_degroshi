@@ -2,8 +2,18 @@ from django.shortcuts import render
 from django.contrib.auth.models import Group, User
 from rest_framework import viewsets, permissions, generics
 
+
 from .models import Expense, Category
 from .serializers import GroupSerializer, UserSerializer, ExpenseSerializer, CategorySerializer
+
+from django.db.models import Sum
+from django.db.models.functions import TruncDay, TruncMonth, TruncYear
+from datetime import datetime
+
+from .serializers import ExpenseSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -50,6 +60,35 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     permissions_classes = [permissions.IsAuthenticated]
 
 
+class TotalExpensesView(APIView):
 
+    def get_total_expenses(self):
+        return Expense.objects.aggregate(total=Sum('amount'))['total']
+
+    def get_expenses_by_category(self):
+        return Expense.objects.values('category__name').annotate(total=Sum('amount'))
+
+    def get_expenses_by_user(self):
+        return Expense.objects.values('user__username').annotate(total=Sum('amount'))
+
+    def get_expenses_by_day(self):
+        return Expense.objects.annotate(day=TruncDay('date')).values('day').annotate(total=Sum('amount'))
+
+    def get_expenses_by_month(self):
+        return Expense.objects.annotate(month=TruncMonth('date')).values('month').annotate(total=Sum('amount'))
+
+    def get_expenses_by_year(self):
+        return Expense.objects.annotate(year=TruncYear('date')).values('year').annotate(total=Sum('amount'))
+
+    def get(self, request):
+        data = {
+            'total_expenses': self.get_total_expenses(),
+            'expenses_by_category': self.get_expenses_by_category(),
+            'expenses_by_user': self.get_expenses_by_user(),
+            'expenses_by_day': self.get_expenses_by_day(),
+            'expenses_by_month': self.get_expenses_by_month(),
+            'expenses_by_year': self.get_expenses_by_year()
+        }
+        return Response(data)
 
 

@@ -19,21 +19,27 @@ from django.urls import path, include
 from rest_framework import routers
 
 from main import views
-from main.views import CategotyAPIList
+from main.views import CategotyAPIList, TotalExpensesView
+from django.urls import path
+
+
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'expenses', views.ExpenseViewSet)
 router.register(r'categories', views.CategoryViewSet)
+# router.register(r'total-expenses', views.TotalExpensesView)
+
 # print(router.urls)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/v1/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/v1/', CategotyAPIList.as_view()),
-    path('api/v1/<int:pk>/', CategotyAPIList.as_view()),
-    path('', include(router.urls))
+    # path('api/v1/', CategotyAPIList.as_view()),
+    # path('api/v1/<int:pk>/', CategotyAPIList.as_view()),
+    path('', include(router.urls)),
+    path('api/v1/total-expenses/', TotalExpensesView.as_view(), name='total_expenses'),
 
 ]
 urlpatterns +=router.urls
