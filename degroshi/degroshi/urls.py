@@ -34,7 +34,9 @@ router.register(r'categories', views.CategoryViewSet)
 # print(router.urls)
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
+
     # path('api/v1/', include('rest_framework.urls', namespace='rest_framework')),
     # path('api/v1/', CategotyAPIList.as_view()),
     # path('api/v1/<int:pk>/', CategotyAPIList.as_view()),
