@@ -22,6 +22,7 @@ from main import views
 from main.views import CategotyAPIList, TotalExpensesView
 from django.urls import path
 
+from .yasg import urlpatterns as doc_urls
 
 
 router = routers.DefaultRouter()
@@ -45,5 +46,6 @@ urlpatterns = [
 
 ]
 urlpatterns +=router.urls
+urlpatterns += doc_urls
 
 
