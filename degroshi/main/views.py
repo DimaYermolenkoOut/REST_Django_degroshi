@@ -61,34 +61,48 @@ class ExpenseViewSet(viewsets.ModelViewSet):
 
 
 class TotalExpensesView(APIView):
-
-    def get_total_expenses(self):
-        return Expense.objects.aggregate(total=Sum('amount'))['total']
+    #
+    # def get_total_expenses(self):
+    #     return Expense.objects.aggregate(total=Sum('amount'))['total']
+    #
+    # def get_expenses_by_category(self):
+    #     return Expense.objects.values('category__name').annotate(total=Sum('amount'))
+    #
+    # def get_expenses_by_user(self):
+    #     return Expense.objects.values('user__username').annotate(total=Sum('amount'))
+    #
+    # def get_expenses_by_day(self):
+    #     return Expense.objects.annotate(day=TruncDay('date')).values('day').annotate(total=Sum('amount'))
+    #
+    # def get_expenses_by_month(self):
+    #     return Expense.objects.annotate(month=TruncMonth('date')).values('month').annotate(total=Sum('amount'))
+    #
+    # def get_expenses_by_year(self):
+    #     return Expense.objects.annotate(year=TruncYear('date')).values('year').annotate(total=Sum('amount'))
+    #
+    # def get(self, request):
+    #     data = {
+    #         'total_expenses': self.get_total_expenses(),
+    #         'expenses_by_category': self.get_expenses_by_category(),
+    #         'expenses_by_user': self.get_expenses_by_user(),
+    #         'expenses_by_day': self.get_expenses_by_day(),
+    #         'expenses_by_month': self.get_expenses_by_month(),
+    #         'expenses_by_year': self.get_expenses_by_year()
+    #     }
+    #     return Response(data)
 
     def get_expenses_by_category(self):
-        return Expense.objects.values('category__name').annotate(total=Sum('amount'))
+        # Отримуємо суму витрат для кожної категорії
+        expenses_by_category = Expense.objects.values('category__name').annotate(total_amount=Sum('amount'))
 
-    def get_expenses_by_user(self):
-        return Expense.objects.values('user__username').annotate(total=Sum('amount'))
+        # Перетворимо результат у потрібний формат для виведення
+        expenses_data = [{'category_name': item['category__name'], 'total_amount': item['total_amount']} for item in
+                         expenses_by_category]
 
-    def get_expenses_by_day(self):
-        return Expense.objects.annotate(day=TruncDay('date')).values('day').annotate(total=Sum('amount'))
-
-    def get_expenses_by_month(self):
-        return Expense.objects.annotate(month=TruncMonth('date')).values('month').annotate(total=Sum('amount'))
-
-    def get_expenses_by_year(self):
-        return Expense.objects.annotate(year=TruncYear('date')).values('year').annotate(total=Sum('amount'))
+        return expenses_data
 
     def get(self, request):
         data = {
-            'total_expenses': self.get_total_expenses(),
             'expenses_by_category': self.get_expenses_by_category(),
-            'expenses_by_user': self.get_expenses_by_user(),
-            'expenses_by_day': self.get_expenses_by_day(),
-            'expenses_by_month': self.get_expenses_by_month(),
-            'expenses_by_year': self.get_expenses_by_year()
         }
         return Response(data)
-
-

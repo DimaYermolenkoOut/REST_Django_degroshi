@@ -43,9 +43,10 @@ urlpatterns = [
     # path('api/v1/', CategotyAPIList.as_view()),
     # path('api/v1/<int:pk>/', CategotyAPIList.as_view()),
     path('', include(router.urls)),
-    # path('total-expenses/', TotalExpensesView.as_view(), name='total_expenses'),
+    path('total-expenses/', TotalExpensesView.as_view(), name='total_expenses'),
     # path('expenses_by_day/', TotalExpensesView.as_view(), name='expenses_by_day'),
     # path('expenses_by_user/', TotalExpensesView.as_view(), name='expenses_by_user'),
+
     path('total-expenses/', views.TotalExpensesView.as_view(), {'get': 'get_total_expenses'}),
     # URL для общих расходов
     path('expenses-by-day/', views.TotalExpensesView.as_view(), {'get': 'get_expenses_by_day'},
