@@ -91,7 +91,7 @@ class TotalExpensesView(APIView):
     #     }
     #     return Response(data)
 
-    def get_expenses_by_category(self):
+    def get_expenses_by_category():
         # Отримуємо суму витрат для кожної категорії
         expenses_by_category = Expense.objects.values('category__name').annotate(total_amount=Sum('amount'))
 
