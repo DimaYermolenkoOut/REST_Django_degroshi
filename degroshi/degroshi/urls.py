@@ -19,7 +19,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from main import views
-from main.views import TotalExpensesView
+from main.views import TotalExpensesView, celery_view
 from main.views import CategotyAPIList, TotalExpensesView
 from django.urls import path
 
@@ -53,6 +53,7 @@ urlpatterns = [
          name='expenses_by_day'),  # URL для расходов по дням
     path('expenses-by-user/', views.TotalExpensesView.as_view(), {'get': 'get_expenses_by_user'},
          name='expenses_by_user'),  # URL для расходов по пользователям
+    path('celery/', celery_view, name='celery'),
 ]
 urlpatterns +=router.urls
 urlpatterns += doc_urls
