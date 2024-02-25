@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from main.tasks import hello_world_task
 from django.shortcuts import render
 from django.contrib.auth.models import Group, User
 from rest_framework import viewsets, permissions, generics
@@ -106,3 +108,8 @@ class TotalExpensesView(APIView):
             'expenses_by_category': self.get_expenses_by_category(),
         }
         return Response(data)
+
+
+def celery_view(*args, **kwargs):
+    hello_world_task.delay()
+    return HttpResponse('ok')
