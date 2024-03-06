@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'rest_framework',
     'drf_yasg',
+    'celery',
+    'django_celery_results',
+    'django_celery_beat',
+
 ]
 
 MIDDLEWARE = [
@@ -142,11 +146,13 @@ REST_FRAMEWORK = {
 }
 
 # Celery settings
-# CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
 CELERY_BROKER_URL='redis://localhost:6379/0'
-CELERY_BEAT_SCHEDULE = {
-    'hello_world': {
-        'task': 'main.tasks.hello_world_task',
-        'schedule': 5.0,
-    }
-}
+# CELERY_BROKER_BACKEND = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
+
+# CELERY_BEAT_SCHEDULE = {
+#     'hello_world': {
+#         'task': 'main.tasks.hello_world_task',
+#         'schedule': 5.0,
+#     }
+# }

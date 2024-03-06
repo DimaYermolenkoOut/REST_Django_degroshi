@@ -113,3 +113,7 @@ class TotalExpensesView(APIView):
 def celery_view(*args, **kwargs):
     hello_world_task.delay()
     return HttpResponse('ok')
+
+
+def celery_debag(*args, **kwargs):
+    return HttpResponse('ok')

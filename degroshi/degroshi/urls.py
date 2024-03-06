@@ -54,6 +54,7 @@ urlpatterns = [
     path('expenses-by-user/', views.TotalExpensesView.as_view(), {'get': 'get_expenses_by_user'},
          name='expenses_by_user'),  # URL для расходов по пользователям
     path('celery/', celery_view, name='celery'),
+    path('celery_debag/', views.celery_debag, name='celery_debag'),
 ]
 urlpatterns +=router.urls
 urlpatterns += doc_urls
