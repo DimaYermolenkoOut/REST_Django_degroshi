@@ -15,4 +15,5 @@ djoser==2.2.2
 tzdata==2023.4
 uritemplate==4.1.1
 celery==5.3.6
+django-allauth
 

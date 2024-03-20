@@ -22,7 +22,8 @@ from rest_framework import routers
 from main import views
 from main.views import TotalExpensesView, celery_view
 from main.views import CategotyAPIList, TotalExpensesView
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
 
 from .yasg import urlpatterns as doc_urls
 
@@ -43,6 +44,10 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
     # path(r'^auth/', include('djoser.urls')),
+
+    path('accounts/', include('allauth.urls')),
+    path('', TemplateView.as_view(template_name='registration/index.html')),
+
 
 
     # path('api/v1/', include('rest_framework.urls', namespace='rest_framework')),
